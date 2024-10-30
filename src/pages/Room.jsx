@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, {useState, useEffect} from 'react';
-import { databases, DATABASE_ID, COLLECTIONS_ID_MSG, PROJECT_ID } from '../appwriteConfig';
+import client, {databases, DATABASE_ID, COLLECTIONS_ID_MSG, PROJECT_ID } from '../appwriteConfig';
 import {ID, Query} from 'appwrite';
+import {Trash2} from 'react-feather'
 
 const Room = () => {
 
@@ -10,6 +11,13 @@ const Room = () => {
 
     useEffect(() => {
         getMessages();
+
+        client.subscribe(`databases.${DATABASE_ID}.collections.${COLLECTIONS_ID_MSG}.documents`, response => {
+          // Callback will be executed on changes for documents A and all files.
+          console.log('Real time: ', response);
+        });
+      
+
     }, [])
 
     const handleSubmit = async (e) => {
@@ -50,6 +58,11 @@ const Room = () => {
         setMessages(response.documents);
     }
 
+    const deleteMsg = async (messageID) => {
+      databases.deleteDocument(DATABASE_ID, COLLECTIONS_ID_MSG, messageID);
+      setMessages(prevState => messages.filter(message => message.$id !== messageID));
+    }
+
   return (
     <main className='container'>
       
@@ -75,8 +88,12 @@ const Room = () => {
 
               <div className='message--header'>
                 <small className='message-timestamp'>
-                  {message.$createdAt}
+                  {new Date(message.$createdAt).toLocaleString()} -
                 </small>
+                <Trash2 
+                  className='delete--btn'
+                  onClick={() => deleteMsg(message.$id)} 
+                />
               </div>
 
               <div className='message--body'>
