@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, {useState, useEffect} from 'react';
-import client, {databases, DATABASE_ID, COLLECTIONS_ID_MSG, PROJECT_ID } from '../appwriteConfig';
+import client, {databases, DATABASE_ID, COLLECTIONS_ID_MSG, PROJECT_ID} from '../appwriteConfig';
 import {ID, Query} from 'appwrite';
 import {Trash2} from 'react-feather'
 
@@ -97,9 +97,8 @@ const Room = () => {
           ))}
         </div>
       </div>
-
     </main>
   )
 }
 
-export default Room
+export default Room;
