@@ -15,10 +15,8 @@ const Room = () => {
         client.subscribe(`databases.${DATABASE_ID}.collections.${COLLECTIONS_ID_MSG}.documents`, response => {
           // Callback will be executed on changes for documents A and all files.
           console.log('Real time: ', response);
-        });
-      
-
-    }, [])
+        });    
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -34,8 +32,7 @@ const Room = () => {
           ID.unique(), 
           payload
         );
-
-        
+  
         console.log('Created: ',  response);
 
         setMessageBody('');
@@ -44,7 +41,6 @@ const Room = () => {
         
         // getMessages();
     }
-
 
     const getMessages = async () => {
         const response = await databases.listDocuments(
@@ -64,8 +60,7 @@ const Room = () => {
     }
 
   return (
-    <main className='container'>
-      
+    <main className='container'> 
       <div className='room--container'>  
         <form id='message--form' onSubmit={handleSubmit}>
           <div>
@@ -95,7 +90,6 @@ const Room = () => {
                   onClick={() => deleteMsg(message.$id)} 
                 />
               </div>
-
               <div className='message--body'>
                 <span>{message.body}</span>
               </div>
